@@ -14,7 +14,10 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@nx-react/ui-header": ["libs/ui-header/src/index.ts"],
+      "@nx-react/ui-sidebar": ["libs/ui-sidebar/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
