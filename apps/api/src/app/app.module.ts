@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ClientsModule } from '../clients/clients.module';
+import { ServicesModule } from '../services/services.module';
 import { UsersModule } from '../users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -9,7 +10,8 @@ import { AppService } from './app.service';
   imports: [
     MongooseModule.forRoot('mongodb://127.0.0.1:27017/tcc'),
     UsersModule,
-    ClientsModule
+    ClientsModule,
+    ServicesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

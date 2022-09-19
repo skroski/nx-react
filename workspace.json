@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "api": "apps/api",
+    "api-interface": "libs/api-interface",
     "eagency": "apps/eagency",
     "eagency-e2e": "apps/eagency-e2e",
     "ui-header": "libs/ui-header",

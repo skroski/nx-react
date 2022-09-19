@@ -1,21 +1,46 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import styles from './app.module.scss';
-import NxWelcome from './nx-welcome';
+import { useState, useEffect, useCallback } from 'react';
 
-import { Route, Routes, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { UiHeader } from '@nx-react/ui-header';
+import { UiSidebar } from '@nx-react/ui-sidebar';
+
+import axios from 'axios';
+import { API_URL, Service} from "@nx-react/api-interface";
+
 
 export function App() {
+  const [service, setService] = useState<Service[]>([]);
+  //const [apiResponse, setApiResponse] = useState({message: 'Loading...'});
+
+  const getServices = useCallback(async () => {
+    const resp = await axios.get<Service[]>(API_URL + 'services');
+    setService(resp.data);
+    console.log(resp);
+  }, []);
+
+  useEffect(() => {
+    getServices();
+  }, []);
+
   return (
     <>
-      <NxWelcome title="eagency" />
-      <div />
-
-      {/* START: routes */}
-      {/* These routes and navigation have been generated for you */}
-      {/* Feel free to move and update them to fit your needs */}
-      <br />
-      <hr />
-      <br />
+      <UiHeader />
+      <section className="grid grid-cols-2">
+      <UiSidebar />
+      <main>
+        {service.map (s => {
+          return(
+            <>
+           <h2 className="text-xl text-red-800">{s.name}</h2> 
+           <h3>{s.price}</h3>
+           </>
+            )
+          
+        })}
+        <p>{JSON.stringify(service)}</p>
+       
+      </main>
+      </section>
       <div role="navigation">
         <ul>
           <li>
@@ -26,27 +51,7 @@ export function App() {
           </li>
         </ul>
       </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
-      {/* END: routes */}
-    </>
+      </>
   );
 }
 

@@ -1,15 +1,7 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { ServicesService } from './services.service';
 import { ServiceDTO } from './dto/create-service.dto';
-import { UpdateServiceDto } from './dto/update-service.dto';
+import { Service } from './interfaces/service.interface';
 
 @Controller('services')
 export class ServicesController {
@@ -21,22 +13,27 @@ export class ServicesController {
   }
 
   @Get()
-  findAll() {
-    return this.servicesService.findAll();
+  async findAll(): Promise<Service[]> {
+    return await this.servicesService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.servicesService.findOne(+id);
+  @Get(':serviceID')
+  async findOne(@Param('serviceID') serviceID: string) {
+    return await this.servicesService.findOne(serviceID);
   }
+  @Get('users/:userName')
+    async getServicesByUserName(@Param('userName') userName: string) {
+        return await this.servicesService.getServicesByUserName(userName);
+    }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateServiceDto: UpdateServiceDto) {
-    return this.servicesService.update(id, updateServiceDto);
-  }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.servicesService.remove(id);
+  @Patch(':serviceID')
+  async update(@Param('serviceID') serviceID : string, @Body() newService : ServiceDTO): Promise<Service> {
+    return await this.servicesService.update(serviceID, newService);
+}
+
+  @Delete(':serviceID')
+  remove(@Param('serviceID') serviceID: string) {
+    return this.servicesService.remove(serviceID);
   }
 }
